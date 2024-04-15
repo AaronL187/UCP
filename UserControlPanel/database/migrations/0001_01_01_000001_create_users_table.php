@@ -11,15 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+
+        Schema::connection('gs_data')->create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('username')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('ucp_ip');
             $table->rememberToken();
             $table->timestamps();
+            $table->unsignedTinyInteger('adminlevel')->default(0); // A number from 0-15, default is 0
+            $table->boolean('banned')->default(false); // A bit, you can use boolean for this, default is false (not banned)
+            $table->string('ban_reason')->nullable(); // A string, can be nullable
+            $table->json('jaildata')->nullable(); // A JSON column, can be nullable
+            $table->string('factorcode')->nullable(); // Assuming this is a string related to 2FA, can be nullable
+            $table->json('warndata')->nullable(); // Another JSON column, can be nullable
         });
+
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
@@ -47,3 +56,4 @@ return new class extends Migration
         Schema::dropIfExists('sessions');
     }
 };
+
