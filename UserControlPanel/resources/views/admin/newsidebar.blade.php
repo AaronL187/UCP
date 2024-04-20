@@ -48,12 +48,12 @@
                     <!-- Submenu -->
                     <ul x-show="serialOpen" x-collapse class="mt-2 space-y-2">
                         <li class="pl-8 pr-3 py-1 hover:bg-gray-700">
-                            <a href="#" class="flex items-center">
+                            <a href={{url('serial/show')}} class="flex items-center">
                                 <span class="title">Serialváltási kérelem beküldése</span>
                             </a>
                         </li>
                         <li class="pl-8 pr-3 py-1 hover:bg-gray-700">
-                            <a href="#" class="flex items-center">
+                            <a href={{url('serial/manage')}} class="flex items-center">
                                 <span class="title">Serialváltások kezelése</span>
                             </a>
                         </li>
@@ -247,7 +247,7 @@
 </div>
 
 <div x-data="{ isOpen: true }">
-    <button x-on:click="isOpen = !isOpen">Toggle Sidebar</button>
+    <button x-on:click="isOpen = !isOpen"></button>
     <div id="sidebar" :class="{'-translate-x-full': !isOpen, 'translate-x-0': isOpen}" class="transition-transform">
         <!-- Sidebar content goes here -->
     </div>

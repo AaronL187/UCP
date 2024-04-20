@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::connection('gs_data')->create('vehicles', function (Blueprint $table) {
             $table->id();
+            $table->integer('model');
             $table->unsignedBigInteger('owner_id');
             $table->tinyInteger('r')->unsigned();
             $table->tinyInteger('g')->unsigned();

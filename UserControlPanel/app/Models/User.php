@@ -66,7 +66,9 @@ class User extends Authenticatable
     }
     public function character()
     {
-        return $this->hasOne(Characters::class, 'account'); // Replace 'account_id' with the actual foreign key if different
+        return $this->hasOne(Characters::class, 'account');
     }
+
+
 
 }

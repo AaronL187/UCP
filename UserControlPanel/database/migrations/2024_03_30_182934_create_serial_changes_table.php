@@ -20,7 +20,7 @@ class CreateSerialChangesTable extends Migration
             $table->string('old_serial', 32); // Old serial 32 Hexadecimal Number
             $table->string('new_serial', 32); // New Serial 32 Hexadecimal Number
             $table->text('reason'); // Reason for the change
-            $table->string('handled_by'); // Admin's name who handled the change
+            $table->string('handled_by')->nullable(); // Admin's name who handled the change
 
             // Adding the status column: 0 is declined, 1 is accepted, NULL is pending
             $table->tinyInteger('status')->nullable()->default(null); // Status column

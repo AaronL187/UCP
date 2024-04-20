@@ -27,15 +27,19 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'username' => $this->faker->unique()->userName,
+            'email' => $this->faker->unique()->safeEmail,
+            'serial' => bin2hex(random_bytes(16)),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'two_factor_secret' => null,
-            'two_factor_recovery_codes' => null,
+            'password' => bcrypt('password'), // Use a secure hash in production
+            'ucp_ip' => $this->faker->ipv4,
             'remember_token' => Str::random(10),
-            'profile_photo_path' => null,
-            'current_team_id' => null,
+            'adminlevel' => $this->faker->numberBetween(0, 15),
+            'banned' => $this->faker->boolean,
+            'ban_reason' => $this->faker->boolean(20) ? $this->faker->sentence : null,
+            'jaildata' => null, // You might want to create a structure here if needed
+            'factorcode' => null, // You can specify how this should be generated if it's not null
+            'warndata' => null, // Same as jaildata
         ];
     }
 

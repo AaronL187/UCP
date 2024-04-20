@@ -3,11 +3,13 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Characters;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +21,7 @@ class DatabaseSeeder extends Seeder
         DB::connection('gs_data')->table('users')->insert([
             'username' => 'AdminUser',
             'email' => 'admin@example.com',
+            'serial' => Str::random(32),
             'password' => bcrypt('password'), // Always hash passwords
             'ucp_ip' => '127.0.0.1',
             'adminlevel' => 15,
@@ -29,30 +32,14 @@ class DatabaseSeeder extends Seeder
             'warndata' => json_encode([]),
         ]);
 
-        DB::connection('gs_data')->table('users')->insert([
-            'username' => 'ModeratorUser',
-            'email' => 'moderator@example.com',
-            'password' => bcrypt('password'),
-            'ucp_ip' => '127.0.0.2',
-            'adminlevel' => 5,
-            'banned' => false,
-            'ban_reason' => null,
-            'jaildata' => json_encode([]),
-            'factorcode' => null,
-            'warndata' => json_encode([]),
+        $this->call([
+            UserSeeder::class,
+            CharacterSeeder::class,
+            VehicleSeeder::class,
+            SerialChangesSeeder::class,
         ]);
 
-        DB::connection('gs_data')->table('users')->insert([
-            'username' => 'RegularUser',
-            'email' => 'user@example.com',
-            'password' => bcrypt('password'),
-            'ucp_ip' => '127.0.0.3',
-            'adminlevel' => 0,
-            'banned' => false,
-            'ban_reason' => null,
-            'jaildata' => json_encode([]),
-            'factorcode' => null,
-            'warndata' => json_encode([]),
-        ]);
+
+
     }
 }

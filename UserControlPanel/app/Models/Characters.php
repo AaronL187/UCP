@@ -18,4 +18,9 @@ class Characters extends Model
         // Assuming 'account' is the foreign key in the characters table that references the 'id' field in the users table
         return $this->belongsTo(User::class, 'account');
     }
+    public function serialChanges()
+    {
+        return $this->hasMany(SerialChange::class);
+    }
+
 }
