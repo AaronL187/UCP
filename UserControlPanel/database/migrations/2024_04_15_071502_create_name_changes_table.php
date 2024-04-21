@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('new_name', 255);  // New name of the character
             $table->text('reason');  // Reason for the name change
             $table->string('handled_by');  // Admin's name who handled the change
-
+            $table->text('message')->nullable()->default(null);  // Message by the admin if declined
             // Adding the status column: 0 is declined, 1 is accepted, NULL is pending
             $table->tinyInteger('status')->nullable()->default(null);  // Status column
 

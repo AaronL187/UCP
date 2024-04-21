@@ -47,6 +47,22 @@ Route::group([
 
 Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
+    'controller' => \App\Http\Controllers\NameController::class,
+], static function () {
+    Route::get('/name/show',  'show')->name('name.show');
+    Route::get('/name/create',  'create');
+    Route::post('/name/store', 'store');
+    Route::get('/name/manage', 'manage')->name('name.manage');
+    Route::post('/name/accept/{id}', 'accept');
+    Route::post('/name/decline/{id}', 'decline');
+    /*Route::post('news/update/{id}', 'update');
+    Route::get('news/show', 'show');
+    Route::delete('news/destroy/{id}', 'destroy');*/
+
+});
+
+Route::group([
+    #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\ProfilController::class,
 ], static function () {
     Route::get('/profil/{identifier}', 'show');

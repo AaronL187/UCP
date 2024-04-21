@@ -23,7 +23,6 @@ return new class extends Migration
             $table->timestamp('last_login_time')->nullable();
             $table->unsignedTinyInteger('hunger')->default(100);
             $table->unsignedTinyInteger('thirst')->default(100);
-            $table->string('adminnick')->default('Ismeretlen');
             $table->unsignedBigInteger('dimension_id')->default(0);
             $table->unsignedBigInteger('money'); // For values over 2 billion
             $table->unsignedInteger('pp'); // Assuming premium points won't exceed 2^32

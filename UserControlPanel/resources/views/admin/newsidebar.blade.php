@@ -265,6 +265,7 @@
     function toggleSidebar() {
         document.querySelector('.sidebar').classList.toggle('-translate-x-full');
     }
+
 </script>
 
 </body>

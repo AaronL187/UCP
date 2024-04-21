@@ -27,7 +27,6 @@ class CharactersFactory extends Factory
             'last_login_time' => $this->faker->dateTimeBetween('-1 month', 'now'),
             'hunger' => $this->faker->numberBetween(0, 100),
             'thirst' => $this->faker->numberBetween(0, 100),
-            'adminnick' => 'Ismeretlen',
             'dimension_id' => $this->faker->randomDigit,
             'money' => $this->faker->numberBetween(1000, 500000),
             'pp' => $this->faker->randomNumber(),

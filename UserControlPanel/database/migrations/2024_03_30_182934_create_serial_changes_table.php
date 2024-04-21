@@ -21,11 +21,12 @@ class CreateSerialChangesTable extends Migration
             $table->string('new_serial', 32); // New Serial 32 Hexadecimal Number
             $table->text('reason'); // Reason for the change
             $table->string('handled_by')->nullable(); // Admin's name who handled the change
+            $table->text('message')->nullable()->default(null); // Message by the admin if declined
 
             // Adding the status column: 0 is declined, 1 is accepted, NULL is pending
             $table->tinyInteger('status')->nullable()->default(null); // Status column
 
-            // Omit the foreign key constraint due to cross-database limitations
+            $table->timestamp('handled_at')->nullable(); // Date when the change was handled
         });
     }
 

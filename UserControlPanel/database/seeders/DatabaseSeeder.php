@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
             CharacterSeeder::class,
             VehicleSeeder::class,
             SerialChangesSeeder::class,
+            NameChangesSeeder::class,
         ]);
 
 

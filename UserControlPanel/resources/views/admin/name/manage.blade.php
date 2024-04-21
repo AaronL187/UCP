@@ -1,12 +1,12 @@
-@include('admin.newsidebar');
-<div class="bg-orange-100 min-h-screen p-4">
+@include('admin.newsidebar')
+<div class="bg-orange-100 p-6 flex-end">
 <body class="bg-gray-100 p-6">
 <button id="toggleButton" class="px-4 py-2 mb-4 text-white bg-blue-600 rounded hover:bg-blue-700 focus:outline-none focus:border-blue-800 focus:ring focus:ring-blue-300 active:bg-blue-800 transition duration-150 ease-in-out">
     Függőben lévők mutatása
 </button>
 <!-- Serial Change Requests Table -->
 <div class="mb-6 bg-white shadow-md rounded px-8 pt-6 pb-8">
-    <h2 class="text-lg font-bold mb-4 text-gray-700">Serial Váltási kérelmek kezelése</h2>
+    <h2 class="text-lg font-bold mb-4 text-gray-700">Név Váltási kérelmek kezelése</h2>
 
     <!-- Search Bar -->
     <div class="mb-4">
@@ -20,22 +20,22 @@
                 <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Azonosító</th>
                 <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Dátum</th>
                 <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Felhasználó</th>
-                <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Régi Serial</th>
-                <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Új Serial</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Régi Név</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Új Név</th>
                 <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Státusz</th>
                 <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Indoklás</th>
                 <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Kezelés</th>
             </tr>
             </thead>
             <tbody id="tableBody">
-            @foreach ($serialChanges as $change)
+            @foreach ($nameChanges as $change)
                 <tr data-status="{{ is_null($change->status) ? 'null' : $change->status }}"
                     class="{{ $change->status === 1 ? 'bg-green-100' : ($change->status === 0 ? 'bg-red-100' : (is_null($change->status) ? 'bg-yellow-100' : '')) }}">
                     <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $change->id }}</td>
                     <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $change->date }}</td>
                     <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $change->username }} ({{ $change->userId }})</td>
-                    <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ strtoupper($change->old_serial) }}</td>
-                    <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ strtoupper($change->new_serial) }}</td>
+                    <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $change->old_name }}</td>
+                    <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $change->new_name }}</td>
                     <td class="px-5 py-5 border-b border-gray-200 text-sm">
                         @if ($change->status === 1)
                             Elfogadva
@@ -48,10 +48,13 @@
                     <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $change->reason }}</td>
                     <td class="px-5 py-5 border-b border-gray-200 text-sm flex justify-start">
                         @if ($change->status === 0 || $change->status === 1)
-                            Kezelte: {{ $change->handled_by }}
+                            Kezelte: {{ $change->adminnick ?? 'Ismeretlen' }}
+                        <br>
+                            Ekkor: <br>
+                            {{ $change->updated_at ?? 'Ismeretlen' }}
                         @else
                             <!-- Accept button -->
-                            <form action="{{ url('serial/accept', $change->id) }}" method="POST">
+                            <form action="{{ url('name/accept', $change->id) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="text-green-600 hover:text-green-900 mx-2">
                                     Elfogadás
@@ -59,7 +62,7 @@
                             </form>
 
                             <!-- Decline button -->
-                            <form action="{{ url('serial/decline', $change->id) }}" method="POST">
+                            <form action="{{ url('name/decline', $change->id) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="text-red-600 hover:text-red-900 mx-2">
                                     Elutasítás

@@ -18,7 +18,7 @@ class CharacterSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Characters::factory()->count(50)->create();
+        \App\Models\Characters::factory()->count(200)->create();
 
     }
 }
