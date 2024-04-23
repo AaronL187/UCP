@@ -54,10 +54,12 @@
                     @endforeach
                     </tbody>
                 </table>
-                <div>
-                    {{ $characters->links('vendor.pagination.tailwind') }}
 
-                </div>
+
+            </div>
+            <br>
+            <div class="flex flex-wrap justify-center min-w-full ml-auto -left-20 bg-gray-50">
+                {{ $characters->links('vendor.pagination.tailwind') }}
 
             </div>
         </div>
