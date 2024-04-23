@@ -24,8 +24,6 @@ return new class extends Migration
             $table->timestamps();
             $table->unsignedTinyInteger('adminlevel')->default(0); // A number from 0-15, default is 0
             $table->text('adminnickname')->nullable()->default('Ismeretlen'); // A string, can be nullable
-            $table->boolean('banned')->default(false); // A bit, you can use boolean for this, default is false (not banned)
-            $table->string('ban_reason')->nullable(); // A string, can be nullable
             $table->json('jaildata')->nullable(); // A JSON column, can be nullable
             $table->string('factorcode')->nullable(); // Assuming this is a string related to 2FA, can be nullable
             $table->json('warndata')->nullable(); // Another JSON column, can be nullable

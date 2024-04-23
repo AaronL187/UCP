@@ -63,6 +63,16 @@ Route::group([
 
 Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
+    'controller' => \App\Http\Controllers\BanController::class,
+], static function () {
+    Route::get('/ban/show',  'show')->name('ban.show');
+    Route::get('/ban/create',  'create');
+    Route::post('/ban/store', 'store');
+
+});
+
+Route::group([
+    #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\ProfilController::class,
 ], static function () {
     Route::get('/profil/{identifier}', 'show');

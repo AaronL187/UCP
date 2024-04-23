@@ -27,6 +27,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::connection('gs_data')->dropIfExists('factions');
+        #Schema::connection('gs_data')->dropIfExists('factions');
     }
 };

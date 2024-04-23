@@ -25,8 +25,8 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'), // Always hash passwords
             'ucp_ip' => '127.0.0.1',
             'adminlevel' => 15,
-            'banned' => false,
-            'ban_reason' => null,
+            #'banned' => false,
+            #'ban_reason' => null,
             'jaildata' => json_encode([]), // Example of empty JSON data
             'factorcode' => null,
             'warndata' => json_encode([]),
@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
             VehicleSeeder::class,
             SerialChangesSeeder::class,
             NameChangesSeeder::class,
+            BansTableSeeder::class,
         ]);
 
 

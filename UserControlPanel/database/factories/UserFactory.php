@@ -35,8 +35,6 @@ class UserFactory extends Factory
             'ucp_ip' => $this->faker->ipv4,
             'remember_token' => Str::random(10),
             'adminlevel' => $this->faker->numberBetween(0, 15),
-            'banned' => $this->faker->boolean,
-            'ban_reason' => $this->faker->boolean(20) ? $this->faker->sentence : null,
             'jaildata' => null, // You might want to create a structure here if needed
             'factorcode' => null, // You can specify how this should be generated if it's not null
             'warndata' => null, // Same as jaildata
