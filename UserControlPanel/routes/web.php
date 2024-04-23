@@ -65,7 +65,15 @@ Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\BanController::class,
 ], static function () {
-    Route::get('/ban',  'show');
+    Route::get('/ban',  'index');
+
+});
+
+Route::group([
+    #'middleware' => \App\Http\Middleware\CheckAdmin::class,
+    'controller' => \App\Http\Controllers\CharacterController::class,
+], static function () {
+    Route::get('/characters',  'index');
 
 });
 

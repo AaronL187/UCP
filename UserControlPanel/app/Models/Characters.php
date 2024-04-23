@@ -10,6 +10,8 @@ class Characters extends Model
 {
     protected $connection = 'gs_data';
     protected $table = 'gs_data.characters';
+
+
     use HasFactory;
 
     // Define the relationship to the User model
@@ -22,5 +24,8 @@ class Characters extends Model
     {
         return $this->hasMany(SerialChange::class);
     }
+    protected $casts = [
+        'last_login_time' => 'datetime',
+    ];
 
 }
