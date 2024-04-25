@@ -87,6 +87,14 @@ Route::group([
 
 Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
+    'controller' => \App\Http\Controllers\VehicleController::class,
+], static function () {
+    Route::get('/vehicles',  'index');
+
+});
+
+Route::group([
+    #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\ProfilController::class,
 ], static function () {
     Route::get('/profil/{identifier}', 'show');

@@ -15,4 +15,12 @@ class Vehicles extends Model
     {
         return $this->belongsTo(Characters::class, 'owner_id', 'id');
     }
+    protected $casts = [
+        'tuning' => 'array',
+        'deletion_info' => 'array'
+    ];
+    public function name()
+    {
+        return $this->belongsTo('App\Models\Characters', 'owner_id');
+    }
 }
