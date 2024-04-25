@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ban;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class BanController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $search = $request->input('search');
+        $users = User::when($search, function ($query) use ($search) {
+            return $query->where('username', 'like', "%{$search}%")
+                ->orWhere('id', $search);
+        })->paginate(25);
+
+        return view('admin.userlist.show', compact('users'));
     }
 
     /**
@@ -34,21 +40,15 @@ class BanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
+    public function show(User $user)
     {
-        $search = $request->input('search');
-        $bans = Ban::when($search, function ($query) use ($search) {
-            return $query->where('username', 'like', "%{$search}%")
-                ->orWhere('userid', $search);
-        })->paginate(25);
-
-        return view('admin.banlist.show', compact('bans'));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Ban $ban)
+    public function edit(User $user)
     {
         //
     }
@@ -56,7 +56,7 @@ class BanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Ban $ban)
+    public function update(Request $request, User $user)
     {
         //
     }
@@ -64,7 +64,7 @@ class BanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ban $ban)
+    public function destroy(User $user)
     {
         //
     }

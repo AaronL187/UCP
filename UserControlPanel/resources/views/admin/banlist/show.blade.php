@@ -7,7 +7,7 @@
                 <div class="block relative">
                     <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
                         <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current text-gray-500">
-                            <path d="..."></path>
+                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
                         </svg>
                     </span>
                     <input placeholder="Keresés azonosító vagy felhasználónév alapján..." type="text" id="searchInput"
@@ -64,6 +64,10 @@
                     </tbody>
                 </table>
             </div>
+            <div class="flex flex-wrap justify-center min-w-full ml-auto -left-20 bg-gray-50">
+                {{ $bans->links('vendor.pagination.tailwind') }}
+
+            </div>
         </div>
     </div>
 </div>
@@ -72,15 +76,18 @@
     document.addEventListener('DOMContentLoaded', function () {
         const searchInput = document.getElementById('searchInput');
 
-        searchInput.addEventListener('keyup', function () {
-            const searchTerm = searchInput.value.toLowerCase();
-            const tableRows = document.querySelectorAll('#tableBody tr');
-
-            tableRows.forEach(row => {
-                const rowText = row.textContent.toLowerCase();
-                const isVisible = rowText.includes(searchTerm);
-                row.style.display = isVisible ? '' : 'none';
-            });
-        });
+        searchInput.addEventListener('keyup', debounce(function () {
+            window.location.href = `?search=${searchInput.value}`;
+        }, 500));
     });
+
+    function debounce(func, timeout = 300) {
+        let timer;
+        return (...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                func.apply(this, args);
+            }, timeout);
+        };
+    }
 </script>

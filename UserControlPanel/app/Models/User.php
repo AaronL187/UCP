@@ -68,7 +68,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Characters::class, 'account');
     }
-
+    protected $casts = [
+        'last_login_time' => 'datetime',
+    ];
 
 
 }
