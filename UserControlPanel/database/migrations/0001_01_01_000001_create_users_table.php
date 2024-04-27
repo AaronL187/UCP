@@ -27,6 +27,7 @@ return new class extends Migration
             $table->json('jaildata')->nullable(); // A JSON column, can be nullable
             $table->string('factorcode')->nullable(); // Assuming this is a string related to 2FA, can be nullable
             $table->json('warndata')->nullable(); // Another JSON column, can be nullable
+            $table->integer('activecharacter')->nullable()->default(null); // An integer column, can be nullable
         });
 
 

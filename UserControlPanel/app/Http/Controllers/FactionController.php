@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Characters;
+use App\Models\Faction;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Collection;
 
-class CharacterController extends Controller
+class FactionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $search = $request->input('search');
-        $characters = Characters::when($search, function ($query) use ($search) {
-            return $query->where('charactername', 'like', "%{$search}%")
-                ->orWhere('id', $search);
-        })->paginate(25);
-
-        return view('admin.characterlist.show', compact('characters'));
+        $factions = Faction::all()->map(function ($faction) {
+            $faction->factiondata = json_decode($faction->factiondata, true);
+            $faction->motto = $details['motto'] ?? 'No Motto';
+            $faction->size = $details['size'] ?? 0;
+            return $faction;
+        });
+        return view('admin.faction.index', compact('factions'));
     }
-
 
 
     /**
@@ -43,15 +41,15 @@ class CharacterController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Characters $characters)
+    public function show(Faction $faction)
     {
-
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Characters $characters)
+    public function edit(Faction $faction)
     {
         //
     }
@@ -59,7 +57,7 @@ class CharacterController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Characters $characters)
+    public function update(Request $request, Faction $faction)
     {
         //
     }
@@ -67,9 +65,8 @@ class CharacterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Characters $characters)
+    public function destroy(Faction $faction)
     {
         //
     }
-
 }

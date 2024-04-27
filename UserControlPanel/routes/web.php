@@ -96,13 +96,18 @@ Route::group([
 
 Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
+    'controller' => \App\Http\Controllers\FactionController::class,
+], static function () {
+    Route::get('/factions',  'index');
+
+});
+
+Route::group([
+    #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\ProfilController::class,
 ], static function () {
     Route::get('/profil/{identifier}', 'show');
-    Route::post('news/store', 'store');
-    Route::get('news/edit/{id}', 'edit');
-    Route::post('news/update/{id}', 'update');
-    Route::get('news/show', 'show');
-    Route::delete('news/destroy/{id}', 'destroy');
+    Route::get('/profilselector', 'index');
+    Route::post('/profil/select', 'selectCharacter');
 
 });

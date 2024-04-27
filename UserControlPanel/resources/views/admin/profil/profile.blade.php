@@ -17,6 +17,8 @@
                     <div class="bg-green-600 h-2.5 rounded-full" style="width: {{ $character->health }}%"></div>
                 </div>
             </div>
+            <!-- Debugging output -->
+            <p>Active Character ID: {{ auth()->user()->activecharacter }}</p>
 
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="armor">

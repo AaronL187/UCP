@@ -3,20 +3,19 @@
 <div class="bg-orange-100 min-h-screen p-6">
     <div class="container mx-auto px-4 sm:px-8">
         <div class="py-8">
-            <div class="flex flex-wrap my-2">
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <input type="text" class="form-control" placeholder="Search by ID" id="searchId" name="searchId">
-                    </div>
-                    <div class="w-full md:w-1/3 px-3">
-                        <input type="text" class="form-control" placeholder="Search by Owner Name" id="searchOwner" name="searchOwner">
-                    </div>
-                    <div class="w-full md:w-1/3 px-3">
-                        <input type="text" class="form-control" placeholder="Search by Model ID" id="searchModelId" name="searchModelId">
-                    </div>
-
+            <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                    <input type="text" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="Keresés Azonosító alapján (ID)" id="searchId" name="searchId">
+                </div>
+                <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                    <input type="text" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="Keresés Név alapján (Karakternév)" id="searchOwner" name="searchOwner">
+                </div>
+                <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                    <input type="text" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="Keresés Model alapján (ID)" id="searchModelId" name="searchModelId">
                 </div>
             </div>
+
+        </div>
             <div class="overflow-x-auto mt-6">
                 <table class="min-w-full leading-normal">
                     <thead>
@@ -54,48 +53,55 @@
                                 {{ $vehicleModels[$vehicle->model] ?? 'Unknown Model' }}
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 text-sm text-gray-700">
-                            {{ $vehicle->character ? $vehicle->character->charactername : 'No Owner' }} ({{ $vehicle->character ? $vehicle->character->id : 'N/A' }})
+                                {{ $vehicle->character ? $vehicle->character->charactername : 'No Owner' }}
+                                ({{ $vehicle->character ? $vehicle->character->id : 'N/A' }})
 
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 text-sm">
-                                <div style="width: 20px; height: 20px; background-color: rgb({{ $vehicle->r }}, {{ $vehicle->g }}, {{ $vehicle->b }}); border: 1px solid #ddd;"></div>
+                                <div
+                                    style="width: 20px; height: 20px; background-color: rgb({{ $vehicle->r }}, {{ $vehicle->g }}, {{ $vehicle->b }}); border: 1px solid #ddd;"></div>
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 text-sm text-gray-700">
                                 ({{ $vehicle->x }}, {{ $vehicle->y }}, {{ $vehicle->z }})
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 text-sm text-gray-700">
-                                @if($vehicle->tuning)
+
+
+                                @if(is_array($vehicle->tuning))
                                     <ul>
-                                        @foreach ($vehicle->tuning as $key => $value)
+                                        @foreach($tuningArray as $component => $stage)
                                             <li>
-                                                @switch($key)
+                                                @switch($component)
                                                     @case('wheels')
-                                                        Kerék Tuning: Stage {{ $value }}
+                                                        Kerék Tuning: Stage {{ $stage }}
                                                         @break
                                                     @case('engine')
-                                                        Motor Tuning: Stage {{ $value }}
+                                                        Motor Tuning: Stage {{ $stage }}
                                                         @break
                                                     @case('ecu')
-                                                        ECU Tuning: Stage {{ $value }}
+                                                        ECU Tuning: Stage {{ $stage }}
                                                         @break
                                                     @case('transmission')
-                                                        Váltó Tuning: Stage {{ $value }}
+                                                        Váltó Tuning: Stage {{ $stage }}
                                                         @break
                                                     @case('nitro')
-                                                        Nitro Tuning: Stage {{ $value }}
+                                                        Nitro Tuning: Stage {{ $stage }}
                                                         @break
                                                     @default
-                                                        {{ ucfirst($key) }}: Stage {{ $value }}
+
                                                 @endswitch
                                             </li>
                                         @endforeach
+
+
                                     </ul>
                                 @else
                                     Gyári kiadás
                                 @endif
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 text-sm text-gray-700">
-                                <a href="{{ url('vehicles/edit/' . $vehicle->id) }}" class="text-blue-600 hover:text-blue-800">Modify</a>
+                                <a href="{{ url('vehicles/edit/' . $vehicle->id) }}"
+                                   class="text-blue-600 hover:text-blue-800">Modify</a>
                             </td>
                         </tr>
                     @endforeach
@@ -114,9 +120,9 @@
     // Simple debounce function to limit the rate of function execution
     function debounce(func, wait, immediate) {
         var timeout;
-        return function() {
+        return function () {
             var context = this, args = arguments;
-            var later = function() {
+            var later = function () {
                 timeout = null;
                 if (!immediate) func.apply(context, args);
             };

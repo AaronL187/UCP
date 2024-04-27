@@ -4,16 +4,7 @@
     <div class="container mx-auto px-4 sm:px-8">
         <div class="py-8">
             <div class="flex flex-wrap my-2">
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <input type="text" class="form-control" placeholder="Search by ID" id="searchId" name="searchId">
-                    </div>
-                    <div class="w-full md:w-1/3 px-3">
-                        <input type="text" class="form-control" placeholder="Search by Owner Name" id="searchOwner" name="searchOwner">
-                    </div>
-                    <div class="w-full md:w-1/3 px-3">
-                        <input type="text" class="form-control" placeholder="Search by Model ID" id="searchModelId" name="searchModelId">
-                    </div>
+               <h2 class="text-2xl font-semibold text-gray-700">Járműveim</h2>
 
                 </div>
             </div>
@@ -64,7 +55,7 @@
                                 ({{ $vehicle->x }}, {{ $vehicle->y }}, {{ $vehicle->z }})
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 text-sm text-gray-700">
-                                @if($vehicle->tuning)
+                                @if(is_array( $vehicle->tuning))
                                     <ul>
                                         @foreach ($vehicle->tuning as $key => $value)
                                             <li>

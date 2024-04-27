@@ -29,6 +29,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'activecharacter',
     ];
 
     /**
@@ -66,11 +67,16 @@ class User extends Authenticatable
     }
     public function character()
     {
-        return $this->hasOne(Characters::class, 'account');
+        return $this->hasMany(Characters::class, 'account');
     }
     protected $casts = [
         'last_login_time' => 'datetime',
     ];
+    public function getActiveCharacter()
+    {
+        return $this->activecharacter;
+    }
+
 
 
 }

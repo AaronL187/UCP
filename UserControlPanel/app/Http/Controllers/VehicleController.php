@@ -13,27 +13,41 @@ class VehicleController extends Controller
      */
     public function index(Request $request)
     {
+        $searchId = $request->input('searchId');
+        $searchOwner = $request->input('searchOwner');
+        $searchModelId = $request->input('searchModelId');
         $search = $request->input('search');
-
         // Query builder with advanced filtering
         $query = Vehicles::query();
 
-        if (!empty($search)) {
-            $query->where(function ($query) use ($search) {
-                $query->where('id', $search)
-                    ->orWhereHas('character', function ($q) use ($search) {
-                        $q->where('charactername', 'like', "%{$search}%");
-                    })
-                    ->orWhere('model', $search);
+        if (!empty($searchId)) {
+            $query->where('id', $searchId);
+        }
+        if (!empty($searchOwner)) {
+            $query->where(function ($query) use ($searchOwner) {
+                $query->whereHas('character', function ($q) use ($searchOwner) {
+                    $q->where('charactername', 'like', '%' . $searchOwner . '%');
+                })->orWhere('owner_id', $searchOwner);
             });
         }
 
-        $vehicles = $query->with('character')->paginate(50)->appends([
-            'search' => $search
-        ]);
+
+        if (!empty($searchModelId)) {
+            $query->where('model', $searchModelId);
+        }
+
+        $vehicles = $query->with('character')->paginate(50);
+
+        $tuningArray = Vehicles::where('tuning', '!=', null)
+            ->get()
+            ->mapWithKeys(function ($vehicle) {
+                return [$vehicle->id => json_decode($vehicle->tuning, true)];
+            })->all();
+
+
 
         $vehicleModels = $this->getVehicleModels();
-        return view('admin.vehicles.show', compact('vehicles', 'vehicleModels'));
+        return view('admin.vehicles.show', compact('vehicles', 'vehicleModels', 'tuningArray'));
     }
 
 
@@ -101,13 +115,27 @@ class VehicleController extends Controller
     {
         //
     }
-    public function getVehiclesByOwner($owner)
+    public function getVehiclesByOwner()
     {
-        // Fetch vehicles based on owner ID
-        $vehicles = Vehicles::where('owner_id', $owner)->get();
+        // Fetch the authenticated user's ID
+        $ownerId = auth()->id();  // Retrieves the ID of the currently authenticated user
+
+        // Check if a user is authenticated
+        if (!$ownerId) {
+            // Optionally, redirect to login or abort with unauthorized error
+            return redirect('login')->with('error', 'You must be logged in to see this page.');
+            // or use abort(403, 'Unauthorized access');
+        }
+        if (auth()->id() != $ownerId) {
+            // Handle unauthorized access
+            abort(403, 'Unauthorized access');
+        }
+        // Fetch vehicles based on the authenticated owner's ID
+        $vehicles = Vehicles::where('owner_id', $ownerId)->get();
 
         $vehicleModels = $this->getVehicleModels();
         return view('admin.vehicles.myvehicles', compact('vehicles', 'vehicleModels'));
     }
+
 
 }

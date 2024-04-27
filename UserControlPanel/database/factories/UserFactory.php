@@ -38,6 +38,7 @@ class UserFactory extends Factory
             'jaildata' => null, // You might want to create a structure here if needed
             'factorcode' => null, // You can specify how this should be generated if it's not null
             'warndata' => null, // Same as jaildata
+            'activecharacter' => null, // This should be set to a character ID
         ];
     }
 
