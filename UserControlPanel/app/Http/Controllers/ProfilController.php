@@ -12,6 +12,22 @@ class ProfilController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function selectCharacter(Request $request)
+    {
+        $user = Auth::user(); // Get the currently authenticated user
+        $characterId = $request->input('character_id'); // Get the submitted character ID
+
+        if ($characterId) {
+            $user->activecharacter = $characterId; // Set the active character
+            $user->save(); // Save the user with the updated active character ID
+
+            return redirect()->back()->with('success', 'Karakter kiválasztva!'); // Redirect back with success message
+        }
+
+        return redirect()->back()->withErrors(['msg' => 'Karakter kiválasztása nem sikerült!']); // Redirect back with error message if character ID is missing
+    }
+
     public function index(Request $request)
     {
         // Get the authenticated user ID
@@ -79,16 +95,6 @@ class ProfilController extends Controller
         return view('admin.profil.profile', ['character' => $activeCharacter]);
     }
 
-    public function selectCharacter()
-    {
-        $userId = Auth::id(); // Get the authenticated user's ID
-
-        // Fetch characters that belong to the user
-        $characters = Characters::where('account', $userId)->get();
-
-        // Passing characters to the view
-        return view('admin.profil.selector', ['characters' => $characters]);
-    }
 
     /**
      * Show the form for editing the specified resource.
