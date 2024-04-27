@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
             SerialChangesSeeder::class,
             NameChangesSeeder::class,
             BansTableSeeder::class,
+            FactionsTableSeeder::class,
         ]);
 
 

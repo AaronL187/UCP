@@ -13,45 +13,47 @@ class VehicleController extends Controller
      */
     public function index(Request $request)
     {
-        // Fetch search criteria from request
-        $searchId = $request->input('searchId');
-        $searchOwner = $request->input('searchOwner');
-        $searchModelId = $request->input('searchModelId');
+        $search = $request->input('search');
 
         // Query builder with advanced filtering
         $query = Vehicles::query();
 
-        if (!empty($searchId)) {
-            $query->where('id', $searchId);
-        }
-
-        if (!empty($searchOwner)) {
-            $query->whereHas('owner', function ($q) use ($searchOwner) {
-                $q->where('name', 'like', '%' . $searchOwner . '%');
+        if (!empty($search)) {
+            $query->where(function ($query) use ($search) {
+                $query->where('id', $search)
+                    ->orWhereHas('character', function ($q) use ($search) {
+                        $q->where('charactername', 'like', "%{$search}%");
+                    })
+                    ->orWhere('model', $search);
             });
         }
 
-        if (!empty($searchModelId)) {
-            $query->where('model', $searchModelId);
-        }
+        $vehicles = $query->with('character')->paginate(50)->appends([
+            'search' => $search
+        ]);
 
-        $vehicles = $query->with('character')->paginate(50);
-
-        // Vehicle models mapping
         $vehicleModels = $this->getVehicleModels();
-        // Passing data to the view
         return view('admin.vehicles.show', compact('vehicles', 'vehicleModels'));
     }
+
+
     protected function getVehicleModels()
     {
-        return [
-            1 => 'Sedan',
-            2 => 'Convertible',
-            3 => 'Hatchback',
-            4 => 'SUV',
-            // Additional models
+        $models = [
+            400 => 'Explorer Sedan',
+            401 => 'Mystique Convertible',
+            402 => 'Voyager Hatchback',
+            403 => 'Summit SUV',
+            // ... Additional models with incrementing IDs up to 610
         ];
+
+        for ($id = 404; $id <= 610; $id++) {
+            $models[$id] = 'Model ' . chr(64 + ($id % 26) + 1) . ' ' . str_pad(($id % 100), 2, '0', STR_PAD_LEFT); // Example naming convention
+        }
+
+        return $models;
     }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -99,4 +101,13 @@ class VehicleController extends Controller
     {
         //
     }
+    public function getVehiclesByOwner($owner)
+    {
+        // Fetch vehicles based on owner ID
+        $vehicles = Vehicles::where('owner_id', $owner)->get();
+
+        $vehicleModels = $this->getVehicleModels();
+        return view('admin.vehicles.myvehicles', compact('vehicles', 'vehicleModels'));
+    }
+
 }

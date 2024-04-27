@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Faction extends Model
 {
+    protected $connection = 'gs_data';
+    protected $table = 'gs_data.factions';
+    protected $casts = [
+        'factiondata' => 'array',
+    ];
+
     use HasFactory;
     public function owner()
     {

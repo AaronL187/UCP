@@ -54,7 +54,7 @@
                                 {{ $vehicleModels[$vehicle->model] ?? 'Unknown Model' }}
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 text-sm text-gray-700">
-                            {{ $vehicle->character ? $vehicle->character->charactername : 'No Owner' }} ({{ $vehicle->character ? $vehicle->character->id : 'N/A' }})
+                                {{ $vehicle->character ? $vehicle->character->charactername : 'No Owner' }} ({{ $vehicle->character ? $vehicle->character->id : 'N/A' }})
 
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 text-sm">
@@ -104,7 +104,6 @@
             </div>
             <br>
             <div class="flex flex-wrap justify-center min-w-full bg-gray-50">
-                {{ $vehicles->links('vendor.pagination.tailwind') }}
             </div>
         </div>
     </div>

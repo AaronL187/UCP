@@ -90,6 +90,7 @@ Route::group([
     'controller' => \App\Http\Controllers\VehicleController::class,
 ], static function () {
     Route::get('/vehicles',  'index');
+    Route::get('/vehicles/owner/{owner}', 'getVehiclesByOwner');
 
 });
 
