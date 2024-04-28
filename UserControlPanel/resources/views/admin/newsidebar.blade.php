@@ -17,7 +17,9 @@
         </svg>
     </button>
 </div>
-
+@php
+    $adminlevel = auth()->user()->adminlevel;
+@endphp
 <div x-data="{ open: true }" class="sidebar fixed top-0 left-0 h-full bg-gray-800 text-white transform -translate-x-full transition duration-300 ease-in-out z-20 w-64 overflow-y-auto">
     <div class="sidebar-header p-5 text-center border-b border-gray-700">
         <img src="{{ asset('/admin/assets/images/logo.png') }}" alt="Logo" class="w-40 h-24 mx-auto">
@@ -52,11 +54,15 @@
                                 <span class="title">Serialváltási kérelem beküldése</span>
                             </a>
                         </li>
-                        <li class="pl-8 pr-3 py-1 hover:bg-gray-700">
-                            <a href={{url('serial/manage')}} class="flex items-center">
-                                <span class="title">Serialváltások kezelése</span>
-                            </a>
-                        </li>
+
+
+                        @if($adminlevel >= 1)
+                            <li class="pl-8 pr-3 py-1 hover:bg-gray-700">
+                                <a href={{url('serial/manage')}} class="flex items-center">
+                                    <span class="title">Serialváltások kezelése</span>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </li>
 
@@ -84,11 +90,13 @@
                                 <span class="title">Névváltási kérelem beküldése</span>
                             </a>
                         </li>
-                        <li class="pl-8 pr-3 py-1 hover:bg-gray-700">
-                            <a href="#" class="flex items-center">
-                                <span class="title">Névváltások kezelése</span>
-                            </a>
-                        </li>
+                        @if($adminlevel >= 1)
+                            <li class="pl-8 pr-3 py-1 hover:bg-gray-700">
+                                <a href="#" class="flex items-center">
+                                    <span class="title">Névváltások kezelése</span>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </li>
             </ul>
@@ -99,7 +107,7 @@
 
         <!-- Profil menu item -->
         <li class="menu-item p-3 hover:bg-gray-700 flex items-center">
-            <a href="{{ url('profil/' . auth()->user()->activecharacter) }}" class="flex items-center space-x-2">
+            <a href="{{ url('profil') }}" class="flex items-center space-x-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                 </svg>
@@ -111,6 +119,7 @@
 
 
         <!-- Tiltólista menu item -->
+            @if($adminlevel >= 2)
         <li class="menu-item p-3 hover:bg-gray-700">
             <a href="{{url('ban')}}" class="flex items-center space-x-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -121,7 +130,9 @@
                 <span class="title">Tiltólista</span>
             </a>
         </li>
+            @endif
         <!-- Karakterek menu item -->
+            @if($adminlevel >= 2)
         <li class="menu-item p-3 hover:bg-gray-700">
             <a href={{url('characters')}} class="flex items-center space-x-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -132,7 +143,9 @@
                 <span class="title">Karakterek</span>
             </a>
         </li>
+            @endif
         <!-- Felhasználók menu item -->
+            @if($adminlevel >= 2)
         <li class="menu-item p-3 hover:bg-gray-700">
             <a href="{{url('users')}}" class="flex items-center space-x-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -143,6 +156,7 @@
                 <span class="title">Felhasználók</span>
             </a>
         </li>
+            @endif
         <!-- Járművek menu item with collapsible submenu -->
 
         <li class="menu-item p-3 hover:bg-gray-700">
@@ -162,7 +176,9 @@
                 </svg>
             </a>
             <!-- Submenu -->
+
             <ul x-show="vehicleOpen" x-collapse class="mt-2 space-y-2">
+                @if($adminlevel >= 2)
                 <li class="pl-8 pr-3 py-1 hover:bg-gray-700">
                     <a href="{{url('vehicles/new')}}" class="flex items-center">
                         <span class="title">Új Jármű Hozzáadása</span>
@@ -173,6 +189,7 @@
                         <span class="title">Járművek Kezelése</span>
                     </a>
                 </li>
+                @endif
                 <li class="pl-8 pr-3 py-1 hover:bg-gray-700">
                     <a href="{{ url('vehicles/owner/' . auth()->id()) }}" class="flex items-center">
                         <span class="title">Saját Járműveim</span>
@@ -183,7 +200,7 @@
 
         <!-- Frakciók menu item -->
         <li class="menu-item p-3 hover:bg-gray-700">
-            <a href="#" class="flex items-center space-x-2">
+            <a href="{{url('factions')}}" class="flex items-center space-x-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 0 1-1.125-1.125v-3.75ZM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-8.25ZM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-2.25Z" />
                 </svg>

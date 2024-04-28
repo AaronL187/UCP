@@ -27,6 +27,8 @@ Route::get('/adminpanel', [HomeController::class, 'admin_view']);
 
 Route::get('/manage', [HomeController::class, 'serialManage']);
 
+Route::get('/permissions', [HomeController::class, 'permissionManage']);
+
 Route::get('/serials', [SerialController::class, 'show']);
 
 Route::group([
@@ -106,7 +108,7 @@ Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\ProfilController::class,
 ], static function () {
-    Route::get('/profil/{identifier}', 'show');
+    Route::get('/profil', 'show')->middleware();
     Route::get('/profilselector', 'index');
     Route::post('/profil/select', 'selectCharacter');
 

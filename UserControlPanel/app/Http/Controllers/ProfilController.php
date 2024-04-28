@@ -59,17 +59,12 @@ class ProfilController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($identifier)
+    public function show()
     {
         // Initialize the query to the User model
         $query = User::on('gs_data');
 
-        // Check if the identifier is numeric and use the appropriate field
-        if (is_numeric($identifier)) {
-            $query->where('id', $identifier);
-        } else {
-            $query->where('username', $identifier);
-        }
+
 
         // Attempt to load the user and their associated active character
         $user = $query->firstOrFail();

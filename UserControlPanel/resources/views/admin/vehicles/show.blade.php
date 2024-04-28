@@ -150,7 +150,7 @@
                 });
 
                 window.location.search = searchParams.toString();
-            }, 500));
+            }, 2000));
         });
     });
 </script>
