@@ -24,7 +24,7 @@ Route::get('/test-db', function () {
     return $user->getConnectionName();  // Should return 'gs_data'
 });
 
-Route::get('/dashboard', [HomeController::class, 'admin_view'])->middleware('auth', 'checkPermission:0');
+Route::get('/dashboard2', [HomeController::class, 'admin_view'])->middleware('auth', 'checkPermission:0');
 
 Route::get('/manage', [HomeController::class, 'serialManage']);
 
