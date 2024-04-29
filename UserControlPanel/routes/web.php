@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SerialController;
+use App\Http\Middleware\CheckPermission;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,7 +24,7 @@ Route::get('/test-db', function () {
     return $user->getConnectionName();  // Should return 'gs_data'
 });
 
-Route::get('/adminpanel', [HomeController::class, 'admin_view']);
+Route::get('/dashboard', [HomeController::class, 'admin_view'])->middleware('auth', 'checkPermission:0');
 
 Route::get('/manage', [HomeController::class, 'serialManage']);
 
@@ -32,15 +33,14 @@ Route::get('/permissions', [HomeController::class, 'permissionManage']);
 Route::get('/serials', [SerialController::class, 'show']);
 
 Route::group([
-    #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\SerialController::class,
 ], static function () {
-    Route::get('/serial/show',  'show')->name('serial.show');
-    Route::get('/serial/create',  'create');
-    Route::post('/serial/store', 'store');
-    Route::get('/serial/manage', 'manage')->name('serial.manage');
-    Route::post('/serial/accept/{id}', 'accept');
-    Route::post('/serial/decline/{id}', 'decline');
+    Route::get('/serial/show',  'show')->name('serial.show')->middleware('checkPermission:1');
+    Route::get('/serial/create',  'create')->middleware('checkPermission:0');
+    Route::post('/serial/store', 'store')->middleware('checkPermission:0');
+    Route::get('/serial/manage', 'manage')->name('serial.manage')->middleware('checkPermission:1');
+    Route::post('/serial/accept/{id}', 'accept')->middleware('checkPermission:1');
+    Route::post('/serial/decline/{id}', 'decline')->middleware('checkPermission:1');
     /*Route::post('news/update/{id}', 'update');
     Route::get('news/show', 'show');
     Route::delete('news/destroy/{id}', 'destroy');*/
@@ -67,7 +67,7 @@ Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\BanController::class,
 ], static function () {
-    Route::get('/ban',  'show');
+    Route::get('/ban',  'show')->middleware('checkPermission:2');
 
 });
 
@@ -75,7 +75,7 @@ Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\CharacterController::class,
 ], static function () {
-    Route::get('/characters',  'index');
+    Route::get('/characters',  'index')->middleware('checkPermission:2');
 
 });
 
@@ -83,7 +83,7 @@ Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\UserController::class,
 ], static function () {
-    Route::get('/users',  'index');
+    Route::get('/users',  'index')->middleware('checkPermission:2');
 
 });
 
@@ -91,8 +91,8 @@ Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\VehicleController::class,
 ], static function () {
-    Route::get('/vehicles',  'index');
-    Route::get('/vehicles/owner/{owner}', 'getVehiclesByOwner');
+    Route::get('/vehicles',  'index')->middleware('checkPermission:2');
+    Route::get('/myvehicles', 'getVehiclesByOwner');
 
 });
 

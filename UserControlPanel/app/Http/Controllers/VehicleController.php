@@ -117,25 +117,21 @@ class VehicleController extends Controller
     }
     public function getVehiclesByOwner()
     {
-        // Fetch the authenticated user's ID
-        $ownerId = auth()->id();  // Retrieves the ID of the currently authenticated user
+        // Fetch the authenticated user's active character ID
+        $ownerId = auth()->user()->activecharacter; // Retrieves the active character ID of the currently authenticated user
 
-        // Check if a user is authenticated
+        // Check if a user is authenticated and has an active character
         if (!$ownerId) {
-            // Optionally, redirect to login or abort with unauthorized error
-            return redirect('login')->with('error', 'You must be logged in to see this page.');
-            // or use abort(403, 'Unauthorized access');
+            return redirect('login')->with('error', 'You must be logged in and have an active character to see this page.');
         }
-        if (auth()->id() != $ownerId) {
-            // Handle unauthorized access
-            abort(403, 'Unauthorized access');
-        }
-        // Fetch vehicles based on the authenticated owner's ID
+
+        // Fetch vehicles based on the authenticated owner's active character ID
         $vehicles = Vehicles::where('owner_id', $ownerId)->get();
 
         $vehicleModels = $this->getVehicleModels();
         return view('admin.vehicles.myvehicles', compact('vehicles', 'vehicleModels'));
     }
+
 
 
 }
