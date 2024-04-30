@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CharacterUpdateRequest;
 use App\Models\Characters;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
@@ -60,9 +61,24 @@ class CharacterController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Characters $characters)
+    public function update(CharacterUpdateRequest $request, $id)
     {
-        //
+        $character = Characters::findOrFail($id);
+        $character->charactername = $request->input('charactername');
+        $character->health = $request->input('health');
+        $character->armor = $request->input('armor');
+        $character->hunger = $request->input('hunger');
+        $character->thirst = $request->input('thirst');
+        $character->money = $request->input('money');
+        $character->pp = $request->input('pp');
+        $character->skin_id = $request->input('skin_id');
+        $character->maxvehs = $request->input('maxvehs');
+        $character->maxinteriors = $request->input('maxinteriors');
+        $character->faction_id = $request->input('faction_id');
+
+        $character->save();
+
+        return redirect()->back()->with('success', 'Karakter sikeresen frissítve!');
     }
 
     /**

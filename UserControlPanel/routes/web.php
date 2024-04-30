@@ -77,6 +77,7 @@ Route::group([
 ], static function () {
     Route::get('/characters',  'index')->middleware('checkPermission:2');
     Route::get('/characters/edit/{id}', 'edit')->middleware('checkPermission:2');
+    Route::put('/characters/update/{id}', 'update')->middleware('checkPermission:2');
 
 });
 
