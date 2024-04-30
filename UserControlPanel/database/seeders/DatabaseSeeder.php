@@ -40,6 +40,7 @@ class DatabaseSeeder extends Seeder
             NameChangesSeeder::class,
             BansTableSeeder::class,
             FactionsTableSeeder::class,
+            PetsTableSeeder::class,
         ]);
 
 
