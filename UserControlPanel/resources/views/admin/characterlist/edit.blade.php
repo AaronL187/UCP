@@ -21,7 +21,7 @@
                 </div>
                 <div>
                     <label for="accountid" class="block text gray-700 text-sm font-bold mb-2">Account ID:</label>
-                    <p class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline block">{{ $character->account }}</p>
+                    <p class="appearance-none border hover:text-black rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline block">{{ $character->account }}</p>
                 </div>
             </div>
 

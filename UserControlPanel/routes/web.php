@@ -25,6 +25,7 @@ Route::get('/test-db', function () {
 });
 
 Route::get('/dashboard2', [HomeController::class, 'admin_view'])->middleware('auth', 'checkPermission:0');
+Route::get('/adminteam', [HomeController::class, 'showAdminTeam'])->middleware('auth', 'checkPermission:0');
 
 Route::get('/manage', [HomeController::class, 'serialManage']);
 

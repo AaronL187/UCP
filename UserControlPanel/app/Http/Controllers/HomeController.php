@@ -34,4 +34,10 @@ class HomeController extends Controller
         }
     }
 
+    public function showAdminTeam()
+    {
+        $users = User::where('adminlevel', '>', 0)->with('character')->get();
+
+        return view('adminteam', compact('users'));
+    }
 }
