@@ -24,6 +24,10 @@ class Characters extends Model
     {
         return $this->hasMany(SerialChange::class);
     }
+    public function owner()
+    {
+        return $this->belongsTo(Pet::class, 'owner_id');
+    }
     protected $casts = [
         'last_login_time' => 'datetime',
     ];

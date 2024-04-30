@@ -74,11 +74,19 @@ Route::group([
 
 Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
+    'controller' => \App\Http\Controllers\PetController::class,
+], static function () {
+    Route::get('/mypets',  'index')->middleware('checkPermission:2', 'auth');
+
+});
+
+Route::group([
+    #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\CharacterController::class,
 ], static function () {
-    Route::get('/characters',  'index')->middleware('checkPermission:2');
-    Route::get('/characters/edit/{id}', 'edit')->middleware('checkPermission:2');
-    Route::put('/characters/update/{id}', 'update')->middleware('checkPermission:2');
+    Route::get('/characters',  'index')->middleware('checkPermission:2', 'auth');
+    Route::get('/characters/edit/{id}', 'edit')->middleware('checkPermission:2', 'auth');
+    Route::put('/characters/update/{id}', 'update')->middleware('checkPermission:2', 'auth');
 
 });
 
