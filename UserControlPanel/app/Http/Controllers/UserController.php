@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -48,17 +49,36 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $adminrankname = User::getAdminRankName($user->adminlevel);
+        return view('admin.userlist.edit', compact('user', 'adminrankname'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, $id)
     {
-        //
+        // Validation passed, proceed to update user
+        $user = User::findOrFail($id);
+
+        // Update user details
+        $user->username = $request->input('username');
+        $user->email = $request->input('email');
+        $user->serial = $request->input('serial');
+        $user->password = bcrypt($request->input('password'));
+        $user->adminlevel = $request->input('adminlevel');
+        $user->adminnickname = $request->input('adminnickname');
+        $user->activecharacter = $request->input('activecharacter');
+
+        // Save the updated user
+        $user->save();
+
+        // Optionally, you can flash a success message
+        // Or return a JSON response indicating success
+        return redirect()->back()->with('success', 'Felhasználó sikeresen frissítve!');
     }
 
     /**

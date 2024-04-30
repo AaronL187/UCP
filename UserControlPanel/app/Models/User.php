@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -77,6 +78,15 @@ class User extends Authenticatable
         return $this->activecharacter;
     }
 
-
-
+    public static function getAdminRankName()
+    {
+        $adminnames = [
+            0 => 'Játékos',
+            1 => 'Segítő',
+            2 => 'Adminisztrátor',
+            3 => 'Szuper Adminisztrátor',
+            4 => 'Tulajdonos',
+        ];
+        return $adminnames;
+    }
 }

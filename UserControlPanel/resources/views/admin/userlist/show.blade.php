@@ -1,6 +1,7 @@
 @include('admin.newsidebar')
 
 <div class="bg-orange-100 min-h-screen p-6">
+
     <div class="container mx-auto px-4 sm:px-8">
         <div class="py-8">
             <div class="flex flex-wrap my-2">
@@ -46,7 +47,7 @@
                                 {{ strtoupper($user->serial) }}
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 text-sm text-gray-700">
-                                <a href="{{ url('profile/' . $user->id) }}"
+                                <a href="{{ url('users/edit/' . $user->id) }}"
                                    class="text-blue-600 hover:text-blue-800">
                                     Módosítás
                                 </a>

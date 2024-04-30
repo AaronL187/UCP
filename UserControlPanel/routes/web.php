@@ -76,6 +76,7 @@ Route::group([
     'controller' => \App\Http\Controllers\CharacterController::class,
 ], static function () {
     Route::get('/characters',  'index')->middleware('checkPermission:2');
+    Route::get('/characters/edit/{id}', 'edit')->middleware('checkPermission:2');
 
 });
 
@@ -84,6 +85,8 @@ Route::group([
     'controller' => \App\Http\Controllers\UserController::class,
 ], static function () {
     Route::get('/users',  'index')->middleware('checkPermission:2');
+    Route::get('/users/edit/{id}', 'edit')->middleware('checkPermission:2');
+    Route::put('/users/update/{id}', 'update')->middleware('checkPermission:2');
 
 });
 

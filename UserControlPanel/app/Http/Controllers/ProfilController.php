@@ -85,9 +85,9 @@ class ProfilController extends Controller
         $responseData = [
             // Any additional data you want to pass to the view
         ];
-
+        $rankname = $this->getAdminRankName();
         // Return the active character data to the view
-        return view('admin.profil.profile', ['character' => $activeCharacter]);
+        return view('admin.profil.profile', ['character' => $activeCharacter, 'user' => $user, 'rankname' => $rankname]);
     }
 
 
@@ -113,6 +113,19 @@ class ProfilController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function getAdminRankName()
+    {
+        $user = Auth::user(); // Get the currently authenticated user
+        $adminRank = $user->adminlevel; // Get the admin rank of the user
+        $adminnames = [
+            0 => 'Játékos',
+            1 => 'Segítő',
+            2 => 'Adminisztrátor',
+            3 => 'Szuper Adminisztrátor',
+            4 => 'Tulajdonos',
+        ];
+        return $adminnames[$adminRank] ?? 'Ismeretlen'; // Return the admin rank name or 'Ismeretlen' if the rank is not found
     }
 }
 

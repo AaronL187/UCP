@@ -14,8 +14,8 @@ class StoreSerialChangeRequest extends FormRequest
     public function rules()
     {
         return [
-            'old_serial' => 'required|string|max:32',
-            'new_serial' => 'required|string|max:32',
+            'old_serial' => 'required|string|max:32|min:32',
+            'new_serial' => 'required|string|max:32|min:32',
             'reason' => 'required|string|max:255',
         ];
     }

@@ -34,7 +34,7 @@ class UserFactory extends Factory
             'password' => bcrypt('password'), // Use a secure hash in production
             'ucp_ip' => $this->faker->ipv4,
             'remember_token' => Str::random(10),
-            'adminlevel' => $this->faker->numberBetween(0, 15),
+            'adminlevel' => $this->faker->numberBetween(0, 3),
             'jaildata' => null, // You might want to create a structure here if needed
             'factorcode' => null, // You can specify how this should be generated if it's not null
             'warndata' => null, // Same as jaildata

@@ -51,9 +51,10 @@ class CharacterController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Characters $characters)
+    public function edit($id)
     {
-        //
+        $character = Characters::findOrFail($id);
+        return view('admin.characterlist.edit', compact('character'));
     }
 
     /**
