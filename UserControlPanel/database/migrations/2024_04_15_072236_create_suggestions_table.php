@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('suggestions', function (Blueprint $table) {
             $table->id();
+            $table->integer('suggested_by');
+            $table->string('suggestion');
+            $table->boolean('status')->nullable()->default(null)->comment('null = pending, 1 = accepted, 0 = rejected');
+            $table->integer('handled_by')->nullable()->default(null);
+            $table->string('reason')->nullable()->default(null);
+            $table->timestamp('handled_at')->nullable()->default(null);
+            $table->integer('reward')->default(0)->comment('Reward for the suggestion being accepted.')->onDelete('set null');
+            $table->softDeletes();
+
             $table->timestamps();
         });
     }

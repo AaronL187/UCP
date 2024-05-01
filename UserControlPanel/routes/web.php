@@ -62,6 +62,22 @@ Route::group([
 
 Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
+    'controller' => \App\Http\Controllers\SuggestionController::class,
+], static function () {
+    Route::get('/suggestion',  'show')->name('suggestion.show')->middleware('auth', 'checkPermission:0');
+    Route::get('/suggestion/manage',  'manage')->middleware('auth', 'checkPermission:0');
+    Route::get('/suggestion/{id}', 'mySuggestion')->middleware('auth', 'checkPermission:0');
+
+   /* Route::get('/name/create',  'create')->middleware('auth', 'checkPermission:0');
+    Route::post('/name/store', 'store')->middleware('auth', 'checkPermission:0');
+    Route::get('/name/manage', 'manage')->name('name.manage')->middleware('auth', 'checkPermission:1');
+    Route::post('/name/accept/{id}', 'accept')->middleware('auth', 'checkPermission:1');
+    Route::post('/name/decline/{id}', 'decline')->middleware('auth', 'checkPermission:1');*/
+
+});
+
+Route::group([
+    #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\BanController::class,
 ], static function () {
     Route::get('/ban',  'show')->middleware('checkPermission:2');

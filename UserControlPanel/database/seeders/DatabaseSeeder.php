@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             BansTableSeeder::class,
             FactionsTableSeeder::class,
             PetsTableSeeder::class,
+            SuggestionSeeder::class,
         ]);
 
 
