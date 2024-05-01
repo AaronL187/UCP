@@ -52,12 +52,12 @@ Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\NameController::class,
 ], static function () {
-    Route::get('/name/show',  'show')->name('name.show');
-    Route::get('/name/create',  'create');
-    Route::post('/name/store', 'store');
-    Route::get('/name/manage', 'manage')->name('name.manage');
-    Route::post('/name/accept/{id}', 'accept');
-    Route::post('/name/decline/{id}', 'decline');
+    Route::get('/name/show',  'show')->name('name.show')->middleware('auth', 'checkPermission:0');
+    Route::get('/name/create',  'create')->middleware('auth', 'checkPermission:0');
+    Route::post('/name/store', 'store')->middleware('auth', 'checkPermission:0');
+    Route::get('/name/manage', 'manage')->name('name.manage')->middleware('auth', 'checkPermission:1');
+    Route::post('/name/accept/{id}', 'accept')->middleware('auth', 'checkPermission:1');
+    Route::post('/name/decline/{id}', 'decline')->middleware('auth', 'checkPermission:1');
     /*Route::post('news/update/{id}', 'update');
     Route::get('news/show', 'show');
     Route::delete('news/destroy/{id}', 'destroy');*/
@@ -94,9 +94,9 @@ Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\UserController::class,
 ], static function () {
-    Route::get('/users',  'index')->middleware('checkPermission:2');
-    Route::get('/users/edit/{id}', 'edit')->middleware('checkPermission:2');
-    Route::put('/users/update/{id}', 'update')->middleware('checkPermission:2');
+    Route::get('/users',  'index')->middleware('checkPermission:2', 'auth');
+    Route::get('/users/edit/{id}', 'edit')->middleware('checkPermission:2', 'auth');
+    Route::put('/users/update/{id}', 'update')->middleware('checkPermission:2', 'auth');
 
 });
 
@@ -105,7 +105,7 @@ Route::group([
     'controller' => \App\Http\Controllers\VehicleController::class,
 ], static function () {
     Route::get('/vehicles',  'index')->middleware('checkPermission:2');
-    Route::get('/myvehicles', 'getVehiclesByOwner');
+    Route::get('/myvehicles', 'getVehiclesByOwner')->middleware('checkPermission:0','auth');
 
 });
 
@@ -113,7 +113,7 @@ Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\FactionController::class,
 ], static function () {
-    Route::get('/factions',  'index');
+    Route::get('/factions',  'index')->middleware('checkPermission:1', 'auth');
 
 });
 
@@ -121,8 +121,8 @@ Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\ProfilController::class,
 ], static function () {
-    Route::get('/profil', 'show')->middleware();
-    Route::get('/profilselector', 'index');
-    Route::post('/profil/select', 'selectCharacter');
+    Route::get('/profil', 'show')->middleware('auth', 'checkPermission:0');
+    Route::get('/profilselector', 'index')->middleware('auth', 'checkPermission:0');
+    Route::post('/profil/select', 'selectCharacter')->middleware('auth', 'checkPermission:0');
 
 });
