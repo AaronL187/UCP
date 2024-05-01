@@ -14,9 +14,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\ProfilController::class, 'index'])->name('dashboard');
+        return view('admin.profil.selector');
 });
 
 Route::get('/test-db', function () {
@@ -58,9 +57,6 @@ Route::group([
     Route::get('/name/manage', 'manage')->name('name.manage')->middleware('auth', 'checkPermission:1');
     Route::post('/name/accept/{id}', 'accept')->middleware('auth', 'checkPermission:1');
     Route::post('/name/decline/{id}', 'decline')->middleware('auth', 'checkPermission:1');
-    /*Route::post('news/update/{id}', 'update');
-    Route::get('news/show', 'show');
-    Route::delete('news/destroy/{id}', 'destroy');*/
 
 });
 

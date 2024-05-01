@@ -281,13 +281,13 @@
                     <!-- Submenu -->
                     <ul x-show="nameChangeOpen" x-collapse class="mt-2 space-y-2">
                         <li class="pl-8 pr-3 py-1 hover:bg-gray-700">
-                            <a href="#" class="flex items-center">
+                            <a href="{{url('name/show')}}" class="flex items-center">
                                 <span class="title">Névváltási kérelem beküldése</span>
                             </a>
                         </li>
                         @if($adminlevel >= 1)
                             <li class="pl-8 pr-3 py-1 hover:bg-gray-700">
-                                <a href="#" class="flex items-center">
+                                <a href="{{url('name/manage')}}" class="flex items-center">
                                     <span class="title">Névváltások kezelése</span>
                                 </a>
                             </li>

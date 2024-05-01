@@ -170,9 +170,16 @@ class NameController extends Controller
 
     public function decline($id)
     {
-        $serialChange = SerialChange::findOrFail($id);
-        $serialChange->status = 0; // Assuming 0 is the status code for 'Declined'
-        $serialChange->save();
+        $nameChange = NameChange::findOrFail($id);
+        if (!is_null($nameChange->status)) {
+            // Redirect back with an error message if the request is already processed
+            return back()->with('error', 'This request has already been processed.');
+        }
+
+        $nameChange->status = 0; // Assuming 0 is the status code for 'Declined'
+        $nameChange->handled_by = Auth::id();
+        $nameChange->updated_at = now();
+        $nameChange->save();
 
         // Redirect back with a success message
         return back()->with('success', 'Change request declined.');
