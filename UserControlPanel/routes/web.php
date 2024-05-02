@@ -15,7 +15,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\ProfilController::class, 'index'])->name('dashboard');
-        return view('admin.profil.selector');
+    return view('admin.profil.selector');
 });
 
 Route::get('/test-db', function () {
@@ -35,8 +35,8 @@ Route::get('/serials', [SerialController::class, 'show']);
 Route::group([
     'controller' => \App\Http\Controllers\SerialController::class,
 ], static function () {
-    Route::get('/serial/show',  'show')->name('serial.show')->middleware('checkPermission:0');
-    Route::get('/serial/create',  'create')->middleware('checkPermission:0');
+    Route::get('/serial/show', 'show')->name('serial.show')->middleware('checkPermission:0');
+    Route::get('/serial/create', 'create')->middleware('checkPermission:0');
     Route::post('/serial/store', 'store')->middleware('checkPermission:0');
     Route::get('/serial/manage', 'manage')->name('serial.manage')->middleware('checkPermission:1');
     Route::post('/serial/accept/{id}', 'accept')->middleware('checkPermission:1');
@@ -51,8 +51,8 @@ Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\NameController::class,
 ], static function () {
-    Route::get('/name/show',  'show')->name('name.show')->middleware('auth', 'checkPermission:0');
-    Route::get('/name/create',  'create')->middleware('auth', 'checkPermission:0');
+    Route::get('/name/show', 'show')->name('name.show')->middleware('auth', 'checkPermission:0');
+    Route::get('/name/create', 'create')->middleware('auth', 'checkPermission:0');
     Route::post('/name/store', 'store')->middleware('auth', 'checkPermission:0');
     Route::get('/name/manage', 'manage')->name('name.manage')->middleware('auth', 'checkPermission:1');
     Route::post('/name/accept/{id}', 'accept')->middleware('auth', 'checkPermission:1');
@@ -64,8 +64,8 @@ Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\SuggestionController::class,
 ], static function () {
-    Route::get('/suggestion',  'show')->name('suggestion.show')->middleware('auth', 'checkPermission:0');
-    Route::get('/suggestion/manage',  'manage')->middleware('auth', 'checkPermission:0');
+    Route::get('/suggestion', 'show')->name('suggestion.show')->middleware('auth', 'checkPermission:0');
+    Route::get('/suggestion/manage', 'manage')->middleware('auth', 'checkPermission:0');
     Route::get('/suggestion/{id}', 'mySuggestion')->middleware('auth', 'checkPermission:0');
     Route::get('/createsuggestion', 'create')->middleware('auth', 'checkPermission:0');
     Route::post('/suggestion/store', 'store')->middleware('auth', 'checkPermission:0');
@@ -80,7 +80,22 @@ Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\BanController::class,
 ], static function () {
-    Route::get('/ban',  'show')->middleware('checkPermission:2');
+    Route::get('/ban', 'show')->middleware('checkPermission:2', 'auth');
+
+});
+
+Route::group([
+    #'middleware' => \App\Http\Middleware\CheckAdmin::class,
+    'controller' => \App\Http\Controllers\ComplaintController::class,
+], static function () {
+    Route::get('/complaint', 'show')->name('complaint.show')->middleware('auth', 'checkPermission:0');
+    Route::get('/complaint/create', 'create')->middleware('checkPermission:0', 'auth');
+    Route::post('/complaint/store', 'store')->middleware('checkPermission:0', 'auth');
+    Route::get('/complaint/manage', 'manage')->middleware('checkPermission:2', 'auth');
+    Route::post('/complaint/accept/{id}', 'accept')->middleware('checkPermission:2', 'auth');
+    Route::post('/complaint/reject/{id}', 'reject')->middleware('checkPermission:2', 'auth');
+    Route::get('/complaint/{id}', 'showSpecific')->middleware('checkPermission:0', 'auth');
+
 
 });
 
@@ -88,7 +103,7 @@ Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\PetController::class,
 ], static function () {
-    Route::get('/mypets',  'index')->middleware('checkPermission:2', 'auth');
+    Route::get('/mypets', 'index')->middleware('checkPermission:2', 'auth');
 
 });
 
@@ -96,7 +111,7 @@ Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\CharacterController::class,
 ], static function () {
-    Route::get('/characters',  'index')->middleware('checkPermission:2', 'auth');
+    Route::get('/characters', 'index')->middleware('checkPermission:2', 'auth');
     Route::get('/characters/edit/{id}', 'edit')->middleware('checkPermission:2', 'auth');
     Route::put('/characters/update/{id}', 'update')->middleware('checkPermission:2', 'auth');
 
@@ -106,7 +121,7 @@ Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\UserController::class,
 ], static function () {
-    Route::get('/users',  'index')->middleware('checkPermission:2', 'auth');
+    Route::get('/users', 'index')->middleware('checkPermission:2', 'auth');
     Route::get('/users/edit/{id}', 'edit')->middleware('checkPermission:2', 'auth');
     Route::put('/users/update/{id}', 'update')->middleware('checkPermission:2', 'auth');
 
@@ -116,8 +131,8 @@ Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\VehicleController::class,
 ], static function () {
-    Route::get('/vehicles',  'index')->middleware('checkPermission:2');
-    Route::get('/myvehicles', 'getVehiclesByOwner')->middleware('checkPermission:0','auth');
+    Route::get('/vehicles', 'index')->middleware('checkPermission:2');
+    Route::get('/myvehicles', 'getVehiclesByOwner')->middleware('checkPermission:0', 'auth');
 
 });
 
@@ -125,7 +140,7 @@ Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\FactionController::class,
 ], static function () {
-    Route::get('/factions',  'index')->middleware('checkPermission:1', 'auth');
+    Route::get('/factions', 'index')->middleware('checkPermission:1', 'auth');
 
 });
 
