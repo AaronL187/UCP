@@ -35,7 +35,7 @@ Route::get('/serials', [SerialController::class, 'show']);
 Route::group([
     'controller' => \App\Http\Controllers\SerialController::class,
 ], static function () {
-    Route::get('/serial/show',  'show')->name('serial.show')->middleware('checkPermission:1');
+    Route::get('/serial/show',  'show')->name('serial.show')->middleware('checkPermission:0');
     Route::get('/serial/create',  'create')->middleware('checkPermission:0');
     Route::post('/serial/store', 'store')->middleware('checkPermission:0');
     Route::get('/serial/manage', 'manage')->name('serial.manage')->middleware('checkPermission:1');
@@ -67,12 +67,12 @@ Route::group([
     Route::get('/suggestion',  'show')->name('suggestion.show')->middleware('auth', 'checkPermission:0');
     Route::get('/suggestion/manage',  'manage')->middleware('auth', 'checkPermission:0');
     Route::get('/suggestion/{id}', 'mySuggestion')->middleware('auth', 'checkPermission:0');
+    Route::get('/createsuggestion', 'create')->middleware('auth', 'checkPermission:0');
+    Route::post('/suggestion/store', 'store')->middleware('auth', 'checkPermission:0');
 
-   /* Route::get('/name/create',  'create')->middleware('auth', 'checkPermission:0');
-    Route::post('/name/store', 'store')->middleware('auth', 'checkPermission:0');
-    Route::get('/name/manage', 'manage')->name('name.manage')->middleware('auth', 'checkPermission:1');
-    Route::post('/name/accept/{id}', 'accept')->middleware('auth', 'checkPermission:1');
-    Route::post('/name/decline/{id}', 'decline')->middleware('auth', 'checkPermission:1');*/
+    Route::post('suggestion/accept/{id}', 'accept')->middleware('auth', 'checkPermission:3');
+    Route::post('suggestion/reject/{id}', 'reject')->middleware('auth', 'checkPermission:3');
+
 
 });
 

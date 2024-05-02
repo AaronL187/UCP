@@ -205,15 +205,21 @@
                 <!-- Submenu -->
                 <ul x-show="openJavaslatok" class="mt-2 space-y-2">
                     <li class="pl-8 pr-3 py-1 hover:bg-gray-700">
-                        <a href="#" class="flex items-center">
+                        <a href="{{url('createsuggestion')}}" class="flex items-center">
                             <span class="title">Javaslat beküldése</span>
                         </a>
                     </li>
                     <li class="pl-8 pr-3 py-1 hover:bg-gray-700">
-                        <a href="#" class="flex items-center">
+                        <a href="{{url('suggestion')}}" class="flex items-center">
+                            <span class="title">Javaslatim megtekintése</span>
+                        </a>
+                    @if($adminlevel >= 3)
+                    <li class="pl-8 pr-3 py-1 hover:bg-gray-700">
+                        <a href="{{url('suggestion/manage')}}" class="flex items-center">
                             <span class="title">Javaslatok kezelése</span>
                         </a>
                     </li>
+                    @endif
                 </ul>
             </li>
             <ul class="sidebar-menu mt-4">

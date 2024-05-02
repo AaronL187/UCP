@@ -18,7 +18,7 @@
             <div class="border-t border-gray-200">
                 <dl>
                     @if($suggestions->isEmpty())
-                        <div class="bg-white px-4 py-5 sm:p-6">
+                        <div class="bg-white px-4 py-6 sm:p-6">
                             <h3 class="text-sm leading-5 font-medium text-gray-500">Még nem tettél javaslatot.</h3>
                         </div>
                     @else

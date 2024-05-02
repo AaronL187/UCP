@@ -61,7 +61,7 @@
                                         {{ $suggestion->id }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {{ $suggestion->created_at->format('Y-m-d') }}
+                                        {{ $suggestion->created_at }}
                                     </td>
                                     <td class="px-6 py-4 text-sm text-gray-900">
                                         {{ $suggestion->suggestion }}
@@ -79,6 +79,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <a href="{{ url('suggestion', $suggestion->id) }}" class="text-indigo-600 hover:text-indigo-900">További részletek</a>
                                     </td>
+
                                 </tr>
                             @endforeach
 

@@ -7,6 +7,7 @@
                 Javaslat Részletei <!-- Suggestion Details -->
             </h3>
         </div>
+        @include('errorhandling')
         <div class="border-t border-gray-200">
             <dl>
                 <div class="bg-gray-50 px-4 py-5 grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
@@ -71,7 +72,48 @@
                         {{ $suggestion->reward }} PrémiumPont <!-- Points -->
                     </dd>
                 </div>
+                @if ($suggestion->status === null and Auth()->user()->adminlevel >= 3)  <!-- Check if the status is pending -->
+                <div class="px-4 py-5 flex justify-end space-x-2">
+                    <!-- Accept button form -->
+                    <form action="{{ url('suggestion/accept', $suggestion->id) }}" method="POST" id="acceptForm">
+                        @csrf
+                        <input type="hidden" name="reason" id="reason-accept">
+                        <input type="hidden" name="reward" id="reward">
+                        <button type="button" onclick="handleDecision('accept')" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                            Elfogadás
+                        </button>
+                    </form>
+
+                    <!-- Reject button form -->
+                    <form action="{{ url('suggestion/reject', $suggestion->id) }}" method="POST" id="rejectForm">
+                        @csrf
+                        <input type="hidden" name="reason" id="reason-reject">
+                        <button type="button" onclick="handleDecision('reject')" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                            Elutasítás
+                        </button>
+                    </form>
+                </div>
+                @endif
+                {{--@endif--}}
             </dl>
         </div>
     </div>
 </div>
+<script>
+    function handleDecision(decisionType) {
+        const reason = prompt("Kérjük, adja meg a döntés indokát:"); // Prompt for reason
+        if (!reason) return; // Exit if no reason is provided
+
+        if (decisionType === 'accept') {
+            const reward = prompt("Adja meg a jutalom pontok számát:"); // Prompt for reward points
+            if (!reward) return; // Exit if no reward is provided
+
+            document.getElementById('reason-accept').value = reason;
+            document.getElementById('reward').value = reward;
+            document.getElementById('acceptForm').submit(); // Submit the accept form
+        } else {
+            document.getElementById('reason-reject').value = reason;
+            document.getElementById('rejectForm').submit(); // Submit the reject form
+        }
+    }
+</script>

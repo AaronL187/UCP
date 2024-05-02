@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SuggestionRequest;
 use App\Models\Characters;
 use App\Models\Suggestion;
 use App\Models\User;
@@ -14,7 +15,7 @@ class SuggestionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function mySuggestion(int $id)
+    public function mySuggestion($id)
     {
         // Fetch the suggestion
         $suggestion = Suggestion::findOrFail($id);
@@ -65,7 +66,7 @@ class SuggestionController extends Controller
      */
     public function create()
     {
-        //
+        return view('user.suggestion.create');
     }
 
     /**
@@ -73,7 +74,15 @@ class SuggestionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+
+        $suggestion = new Suggestion();
+        $suggestion->suggested_by = auth()->user()->activecharacter; // assuming you have user authentication
+        $suggestion->suggestion = $request->suggestion;
+        $suggestion->status = null; // pending status
+        $suggestion->save();
+
+        return redirect()->back()->with('status', 'Suggestion submitted successfully!');
     }
 
     /**
@@ -98,15 +107,23 @@ class SuggestionController extends Controller
     }
 
 
+    public function handleDecision(SuggestionRequest $request)
+    {
+        $data = $request->validated();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+        $suggestion = Suggestion::findOrFail($data['suggestionId']);
+        $suggestion->handled_by = auth()->id();
+        $suggestion->handled_at = now();
+        $suggestion->reason = $data['reason'];
+        $suggestion->status = $data['decision'] === 'accept' ? 1 : 0;
+        if ($data['decision'] === 'accept') {
+            $suggestion->reward = $data['reward'];
+        }
+        $suggestion->save();
 
+        return response()->json(['message' => 'Suggestion processed successfully.']);
+    }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Suggestion $suggestion)
     {
         //
@@ -118,5 +135,52 @@ class SuggestionController extends Controller
     public function destroy(Suggestion $suggestion)
     {
         //
+    }
+
+    public function accept(SuggestionRequest $request, $id)
+    {
+        // Retrieve the name change request
+        $suggestionChange = Suggestion::findOrFail($request->id);
+        if (!is_null($suggestionChange->status)) {
+            // Redirect back with an error message if the request is already processed
+            return back()->with('error', 'Ez a kérelem már feldfeldolgozásra került.');
+        }
+        $character = Characters::find($suggestionChange->suggested_by);
+
+
+        $suggestionChange->status = 1;
+        $suggestionChange->handled_by = Auth::id();
+        $suggestionChange->updated_at = now();
+        $suggestionChange->reward = $request->reward;
+        $suggestionChange->reason = $request->reason;
+        $suggestionChange->suggested_by;
+        $suggestionChange->suggestion;
+        $suggestionChange->save();
+        $character->pp += $request->reward;
+        $character->save();
+        return back()->with('success', 'A kérelem elfogadvá lett. A jutalom jóváírásra került.');
+
+    }
+
+
+    public function reject(SuggestionRequest $request, $id)
+    {
+        $suggestionChange = Suggestion::findOrFail($request->id);
+        if (!is_null($suggestionChange->status)) {
+            // Redirect back with an error message if the request is already processed
+            return back()->with('error', 'Ez a kérelem már feldfeldolgozásra került.');
+        }
+        $suggestionChange->status = 0;
+        $suggestionChange->handled_by = Auth::id();
+        $suggestionChange->updated_at = now();
+        $suggestionChange->reward = $request->reward;
+        $suggestionChange->reason = $request->reason;
+        $suggestionChange->suggested_by;
+        $suggestionChange->suggestion;
+        $suggestionChange->reward = 0;
+        $suggestionChange->save();
+
+        // Redirect back with a success message
+        return back()->with('success', 'A kérelem elutasításra került.');
     }
 }
