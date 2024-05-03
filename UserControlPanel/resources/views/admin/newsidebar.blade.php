@@ -319,13 +319,20 @@
                 <!-- Submenu -->
                 <ul x-show="openPanaszok" class="mt-2 space-y-2">
                     <li class="pl-8 pr-3 py-1 hover:bg-gray-700">
-                        <a href="#" class="flex items-center">
+                        <a href="{{url('complaint/create')}}" class="flex items-center">
                             <span class="title">Panasz beküldése</span>
                         </a>
                     </li>
+                    @if($adminlevel >= 1)
+                        <li class="pl-8 pr-3 py-1 hover:bg-gray-700">
+                            <a href="{{url('complaint/manage')}}" class="flex items-center">
+                                <span class="title">Panaszok kezelése</span>
+                            </a>
+                        </li>
+                    @endif
                     <li class="pl-8 pr-3 py-1 hover:bg-gray-700">
-                        <a href="#" class="flex items-center">
-                            <span class="title">Panaszok kezelése</span>
+                        <a href="{{url('complaint')}}" class="flex items-center">
+                            <span class="title">Saját panaszaim</span>
                         </a>
                     </li>
                 </ul>

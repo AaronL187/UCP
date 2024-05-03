@@ -101,6 +101,19 @@ Route::group([
 
 Route::group([
     #'middleware' => \App\Http\Middleware\CheckAdmin::class,
+    'controller' => \App\Http\Controllers\TicketController::class,
+], static function () {
+    Route::get('/ticket/create', 'create')->middleware('auth', 'checkPermission:0');
+    Route::post('/ticket/store', 'store')->middleware('auth', 'checkPermission:0');
+    Route::get('/ticket/manage', 'manage')->middleware('auth', 'checkPermission:2');
+    Route::get('/ticket/{id}', 'showSpecific')->middleware('auth', 'checkPermission:0');
+    Route::post('/ticket/accept/{id}', 'accept')->middleware('auth', 'checkPermission:2');
+    Route::post('/ticket/reject/{id}', 'reject')->middleware('auth', 'checkPermission:2');
+
+});
+
+Route::group([
+    #'middleware' => \App\Http\Middleware\CheckAdmin::class,
     'controller' => \App\Http\Controllers\PetController::class,
 ], static function () {
     Route::get('/mypets', 'index')->middleware('checkPermission:2', 'auth');
