@@ -24,8 +24,8 @@ return new class extends Migration
             $table->unsignedTinyInteger('hunger')->default(100);
             $table->unsignedTinyInteger('thirst')->default(100);
             $table->unsignedBigInteger('dimension_id')->default(0);
-            $table->unsignedBigInteger('money'); // For values over 2 billion
-            $table->unsignedInteger('pp'); // Assuming premium points won't exceed 2^32
+            $table->unsignedBigInteger('money');
+            $table->unsignedInteger('pp');
             $table->unsignedInteger('skin_id');
             $table->unsignedInteger('age');
             $table->unsignedTinyInteger('maxvehs');

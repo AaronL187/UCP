@@ -10,6 +10,9 @@
 <body class="bg-white font-sans">
 
 <div class="flex w-full h-16 bg-blue-800 z-30">
+    <x-app-layout>
+
+    </x-app-layout>
     <a class="text-white text-xl font-bold p-4" href="#"></a>
     <button onclick="toggleSidebar()" class="text-white ml-auto p-4 focus:outline-none">
         <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24"> <!-- Hamburger Icon -->

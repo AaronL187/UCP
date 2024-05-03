@@ -1,6 +1,6 @@
 @include('admin.newsidebar')
 
-<div class="bg-orange-100 min-h-screen p-6">
+<div class="min-h-screen p-6">
     <div class="container mx-auto px-4 sm:px-8">
         <div class="py-8">
             <div class="flex flex-wrap my-2">
