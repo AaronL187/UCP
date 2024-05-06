@@ -8,7 +8,9 @@ use App\Http\Middleware\CheckPermission;
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/register', function () {
+    return abort(404);
+});
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -41,9 +43,7 @@ Route::group([
     Route::get('/serial/manage', 'manage')->name('serial.manage')->middleware('checkPermission:1');
     Route::post('/serial/accept/{id}', 'accept')->middleware('checkPermission:1');
     Route::post('/serial/decline/{id}', 'decline')->middleware('checkPermission:1');
-    /*Route::post('news/update/{id}', 'update');
-    Route::get('news/show', 'show');
-    Route::delete('news/destroy/{id}', 'destroy');*/
+
 
 });
 

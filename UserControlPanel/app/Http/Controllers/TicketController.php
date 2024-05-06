@@ -145,7 +145,7 @@ class TicketController extends Controller
         $ticket->save();
         $character->pp += $request->reward;
         $character->save();
-        return back()->with('success', 'A jegy elfogadásra került. A jutalom jóváírásra került.');
+        return redirect()->back()->with('success', 'A jegy elfogadásra került. A jutalom jóváírásra került.');
     }
     public function reject(TicketValidationRequest $request, $id)
     {
@@ -166,7 +166,7 @@ class TicketController extends Controller
         $ticket->save();
 
         // Redirect back with a success message
-        return back()->with('success', 'A jegy elutasításra került.');
+        return redirect()->back()->with('success', 'A jegy elutasításra került.');
     }
 
 

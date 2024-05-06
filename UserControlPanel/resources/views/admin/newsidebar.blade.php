@@ -179,6 +179,7 @@
                 </a>
             </li>
             <!-- Logok menu item -->
+            @if($adminlevel >= 2)
             <li class="menu-item p-3 hover:bg-gray-700">
                 <a href="#" class="flex items-center space-x-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -191,6 +192,7 @@
                     <span class="title">Logok</span>
                 </a>
             </li>
+            @endif
             <!-- Javaslatok Menu Item with Toggle for Submenu -->
             <li x-data="{ openJavaslatok: false }" class="menu-item p-3 hover:bg-gray-700">
                 <a @click="openJavaslatok = !openJavaslatok" class="flex items-center justify-between cursor-pointer">
