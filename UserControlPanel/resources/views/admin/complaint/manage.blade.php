@@ -79,7 +79,7 @@
             </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        @if ($complaint->status == null)
+                                        @if ($complaint->handled_by == null)
                                             Nincs
                                         @else
                                         <a href="{{ url('users/edit', $complaint->handled_by) }}" class="text-indigo-600 hover:text-indigo-900">Felhasználó #{{$complaint->handled_by}}</a>

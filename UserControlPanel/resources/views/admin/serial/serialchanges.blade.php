@@ -1,5 +1,5 @@
 @include('admin.newsidebar')
-<div class="bg-orange-100 min-h-screen p-6">
+<div class=" min-h-screen p-6">
     @if ($errors->any())
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
             <strong class="font-bold">Hoppá, valami hiba történt!</strong>

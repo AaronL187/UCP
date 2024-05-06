@@ -1,5 +1,5 @@
 @include('admin.newsidebar');
-<div class="bg-orange-100 min-h-screen p-4">
+<div class=" min-h-screen p-4">
 <body class="bg-gray-100 p-6">
 <button id="toggleButton" class="px-4 py-2 mb-4 text-white bg-blue-600 rounded hover:bg-blue-700 focus:outline-none focus:border-blue-800 focus:ring focus:ring-blue-300 active:bg-blue-800 transition duration-150 ease-in-out">
     Függőben lévők mutatása

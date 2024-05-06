@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSerialChangeRequest;
 use App\Models\SerialChange;
+use App\Models\SerialChangeLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Characters;
@@ -155,8 +156,20 @@ class SerialController extends Controller
                 return back()->withErrors('update_failed', $e->getMessage());
             }
         }
+        $detailedMessage = [
+            'detail' => 'Serial change accepted by ' . $user->adminnickname,
+            'adminuserid' => Auth::id(),
+            'new_serial' => $serialChange->new_serial,
+            'previous_serial' => $serialChange->old_serial
+        ];
+        $log = new SerialChangeLog([
+            'date' => now(),
+            'type' => 'SerialChangeAccepted',
+            'character' => $serialChange->character_id,
+            'message' => json_encode([$detailedMessage]),
+        ]);
 
-
+        $log->save();
 
         // Redirect back with a success message
         return back()->with('success', 'Change request accepted and serial updated.');
@@ -169,7 +182,23 @@ class SerialController extends Controller
         $serialChange->status = 0; // Assuming 0 is the status code for 'Declined'
         $serialChange->save();
 
+        $user = auth::user();
+
         // Redirect back with a success message
+        $detailedMessage = [
+            'detail' => 'Serial change declined by ' . $user->adminnickname,
+            'adminuserid' => Auth::id(),
+            'new_serial' => $serialChange->new_serial,
+            'previous_serial' => $serialChange->old_serial
+        ];
+        $log = new SerialChangeLog([
+            'date' => now(),
+            'type' => 'SerialChangeDeclined',
+            'character' => $serialChange->character_id,
+            'message' => json_encode([$detailedMessage]),
+        ]);
+
+        $log->save();
         return back()->with('success', 'Change request declined.');
     }
 

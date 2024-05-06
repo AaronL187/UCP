@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('name_change_logs', function (Blueprint $table) {
+        Schema::connection('gs_log')->create('name_change_logs', function (Blueprint $table) {
             $table->id();
+            $table->dateTime('date')->comment('A log rögzítésének időpontja');
+            $table->string('type')->comment('A log típusa, például "Járműeladás"');
+            $table->integer('character')->comment('A karakter azonosítója');
+            $table->json('message')->comment('A log tartalmának részletes leírása');
             $table->timestamps();
         });
     }
